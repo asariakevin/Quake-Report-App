@@ -55,15 +55,29 @@ public final class QueryUtils {
                     JSONObject properties = earthQuake.getJSONObject("properties");
 
                     Double magnitude = properties.getDouble("mag");
-                    String location = properties.getString("place");
+                    String locationAndDistance = properties.getString("place");
                     Long timeUnix = properties.getLong("time");
 
                     Date time = new Date(timeUnix);
                     SimpleDateFormat dateFormat = new SimpleDateFormat("DD MMM yyyy");
                     String dateToDisplay = dateFormat.format(time);
 
+                    String distance;
+                    String location;
+                    String splitString = "of";
+
+                    if( locationAndDistance.contains(splitString)){
+                        String [] arraySplits = locationAndDistance.split(splitString);
+                        distance = arraySplits[0] + " of";
+                        location = arraySplits[1].trim();
+
+                    }else{
+
+                        distance = "Near the";
+                        location = locationAndDistance;
+                    }
                     earthquakes.add( new Earthquake( magnitude.toString(),
-                            location,
+                           distance, location,
                             dateToDisplay));
 
                 }

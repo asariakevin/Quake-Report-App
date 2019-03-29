@@ -2,14 +2,18 @@ package com.example.quakeapp;
 
 public class Earthquake {
 
+
+    private String distance;
     private  String location;
     private String magnitude;
     private  String date;
 
-    Earthquake(String magnitude,String location,String date){
+    Earthquake(String magnitude,String distance,String location,String date){
 
-        this.location = location;
+
         this.magnitude = magnitude;
+        this.distance = distance;
+        this.location = location;
         this.date = date;
     }
 
@@ -37,6 +41,15 @@ public class Earthquake {
     public void setDate(String date) {
         this.date = date;
     }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
 
 
 }
