@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,9 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Create a fake list of earthquake locations.
-        ArrayList<Earthquake> earthquakes = new ArrayList<>();
-        earthquakes.add(new Earthquake("San Francisco","4.1","2/1/2015"));
-
+        ArrayList<Earthquake> earthquakes = QueryUtils.extractEarthquakes();
 
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
@@ -28,5 +29,6 @@ public class MainActivity extends AppCompatActivity {
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         earthquakeListView.setAdapter(adapter);
+
     }
 }

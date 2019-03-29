@@ -6,7 +6,7 @@ public class Earthquake {
     private String magnitude;
     private  String date;
 
-    Earthquake(String location,String magnitude,String date){
+    Earthquake(String magnitude,String location,String date){
 
         this.location = location;
         this.magnitude = magnitude;
