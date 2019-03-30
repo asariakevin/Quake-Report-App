@@ -185,14 +185,14 @@ public final class QueryUtils {
 
                 if( locationAndDistance.contains(splitString)){
                     String [] arraySplits = locationAndDistance.split(splitString);
-                    distance = arraySplits[0] + " of";
+                    distance = arraySplits[0] + splitString;
                     location = arraySplits[1].trim();
-
                 }else{
-
                     distance = "Near the";
                     location = locationAndDistance;
                 }
+
+
                 earthquakes.add( new Earthquake( magnitude.toString(),
                         distance, location,
                         dateToDisplay));
@@ -202,7 +202,7 @@ public final class QueryUtils {
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing the earthquake JSON results", e);
         }
-        return null;
+        return earthquakes;
     }
 
 }
