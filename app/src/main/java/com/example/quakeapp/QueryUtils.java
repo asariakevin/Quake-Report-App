@@ -40,6 +40,7 @@ public final class QueryUtils {
      * parsing a JSON response.
      */
     public static ArrayList<Earthquake> extractEarthquakes( String url) {
+
         ArrayList<Earthquake> listOfEarthquake = null;
         URL responseURL = createUrl( url);
         try{
@@ -176,7 +177,7 @@ public final class QueryUtils {
                 Long timeUnix = properties.getLong("time");
 
                 Date time = new Date(timeUnix);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("DD MMM yyyy");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM DD yyyy");
                 String dateToDisplay = dateFormat.format(time);
 
                 String distance;

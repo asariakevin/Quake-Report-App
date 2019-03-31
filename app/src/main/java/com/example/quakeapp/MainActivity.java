@@ -1,6 +1,10 @@
 package com.example.quakeapp;
 
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +17,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks< List<Earthquake>> {
 
     private final String USGS_REQUEST_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
     ListView earthquakeListView;
@@ -25,30 +30,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new EarthquakeTask().execute(USGS_REQUEST_URL);
+        earthquakeListView = (ListView) findViewById(R.id.list);
+
+        getSupportLoaderManager().initLoader(1,null,  this).forceLoad();
+
+
+
+
 
     }
 
-    private class EarthquakeTask extends AsyncTask<String,Void, List<Earthquake>>{
+    @NonNull
+    @Override
+    public Loader<List<Earthquake>> onCreateLoader(int i, @Nullable Bundle bundle) {
+        return new EarthQuakesLoader(MainActivity.this,USGS_REQUEST_URL);
+    }
 
-        @Override
-        protected List<Earthquake> doInBackground(String... strings) {
-                earthquakes = QueryUtils.extractEarthquakes(strings[0]);
-                Log.d("BACKGROUND","COMPLETE");
-                return earthquakes;
-        }
+    @Override
+    public void onLoadFinished(@NonNull Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
+        adapter = new EarthquakeAdapter(getApplicationContext(),earthquakes);
+        earthquakeListView.setAdapter(adapter);
+    }
 
-        @Override
-        protected void onPostExecute(List<Earthquake> earthquakesList) {
-            // Find a reference to the {@link ListView} in the layout
-            earthquakeListView = (ListView) findViewById(R.id.list);
+    @Override
+    public void onLoaderReset(@NonNull Loader<List<Earthquake>> loader) {
 
-            // Create a new {@link ArrayAdapter} of earthquakes
-            adapter = new EarthquakeAdapter(getApplicationContext(),earthquakesList);
-
-            // Set the adapter on the {@link ListView}
-            // so the list can be populated in the user interface
-            earthquakeListView.setAdapter(adapter);
-        }
     }
 }
